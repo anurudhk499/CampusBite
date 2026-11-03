@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusBite | Srinivas University Canteen Pre-Order</title>
+  <meta name="theme-color" content="#3f1a75">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a href="#home" class="brand" aria-label="CampusBite home">
+        <img id="logo" class="logo"
+     src="{{ url_for('static', filename='logo.png') }}"
+     alt="Srinivas University logo">
+        <span class="brand-t"><b>CampusBite</b><small>Srinivas University Institute of Engineering and Technology, Mangaluru</small></span>
+      </a>
+      <span class="veg-pill"><span class="veg"><i></i></span> Fresh · 100% Vegetarian</span>
+      <nav class="links" aria-label="Main">
+        <a href="#home" data-nav="home">Home</a>
+        <a href="#menu" data-nav="menu">Menu</a>
+        <a href="#cart" data-nav="cart" class="nav-cart" aria-label="Shopping cart"><svg class="nav-cart-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg><span>Cart</span><em id="navCount" hidden>0</em></a>
+        <a href="#track" data-nav="track">Track Order</a>
+        </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="v-home" class="view">
+      <div class="hero">
+        <div class="wrap hero-in">
+          <div>
+            <span class="veg-pill on-dark"><span class="veg"><i></i></span> 100% Vegetarian Menu</span>
+            <h1>Order before the bell.<br>Pick up without the queue.</h1>
+            <p>Choose your food, pick a pickup slot that fits your break, and collect it hot with your token.</p>
+            <div class="row"><a class="btn gold lg" href="#menu">Order Now</a><a class="btn ghost lg" href="#track">Track my order</a></div>
+          </div>
+          <div class="card slotboard"><h2 id="boardTitle">Next pickup slots</h2><div id="board"></div></div>
+        </div>
+      </div>
+      <div class="wrap sec">
+        <span class="eyebrow">MADE FOR CAMPUS LIFE</span><h2>The break is short. Lunch shouldn’t be.</h2>
+        <p class="lead">Long queues, slow service and a short break mean some students skip lunch or reach class late. CampusBite moves the waiting out of the break.</p>
+        <div class="grid3">
+          <div class="card pad"><h3>1. Pick your food</h3><p>Browse the menu. Sold-out items are marked before you add them.</p></div>
+          <div class="card pad"><h3>2. Choose a pickup slot</h3><p>Each slot has an order limit, so the kitchen is never flooded and your time is protected.</p></div>
+          <div class="card pad"><h3>3. Collect with your token</h3><p>Track your order live and show the token when it says Ready for Pickup.</p></div>
+        </div>
+      </div>
+     
+      <div class="wrap sec"><div class="sec-h"><h2>Popular today</h2><a href="#menu">See full menu</a></div><div id="popular" class="grid-food"></div></div>
+   
+    </section>
+
+    <!-- MENU -->
+    <section id="v-menu" class="view wrap sec">
+      <div class="sec-h"><div><span class="eyebrow">YOUR CAMPUS FAVOURITES</span><h1 class="h2">Good food, ready when you are.</h1></div><span class="veg-pill"><span class="veg"><i></i></span> Every item is vegetarian</span></div>
+      <div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" class="input" type="search" placeholder="Search dosa, vada, coffee..." aria-label="Search menu"></div>
+      <div id="cats" class="chips" role="tablist" aria-label="Categories"></div>
+      <div id="foodGrid" class="grid-food"></div>
+    </section>
+
+    <!-- CART -->
+    <section id="v-cart" class="view wrap sec">
+      <div id="cartEmpty" class="empty-box" hidden><h1 class="h2">Your cart is empty</h1><p class="muted">Add something from the menu to get started.</p><a class="btn" href="#menu">Browse menu</a></div>
+      <div id="cartFull" class="two">
+        <div>
+          <h1 class="h2">Your cart</h1>
+          <div id="cartLines" class="card list"></div>
+          <h2 class="h3">Pickup date and time</h2>
+          <div id="dateChips" class="chips"></div>
+          <div id="slotGrid" class="slots"></div>
+          <p id="cutNote" class="hint"></p>
+        </div>
+        <aside class="card pad sticky">
+          <h2 class="h3">Order summary</h2>
+          <label for="custName">Name</label>
+          <input id="custName" class="input" placeholder="Full name" autocomplete="name">
+          <label for="custUsn">USN (optional)</label>
+          <input id="custUsn" class="input" placeholder="University seat number">
+          <div class="sum"><span>Pickup</span><b id="sumPick">Not selected</b></div>
+          <div class="sum"><span>Pay at counter</span><b id="sumTotal">₹0</b></div>
+          <p id="formErr" class="warn" role="alert"></p>
+          <button class="btn lg block" data-act="place">Confirm pre-order</button>
+          <p class="hint">Demo prototype: no online payment. Pay at the counter on pickup.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- TRACK -->
+    <section id="v-track" class="view wrap sec narrow">
+      <h1 class="h2">Track your order</h1>
+      <form id="findForm" class="row find"><input id="findTok" class="input" placeholder="Enter token, e.g. CB-101" aria-label="Order token"><button class="btn">Find order</button></form>
+      <p id="findErr" class="warn" role="alert"></p>
+      <div id="trackDetail"></div>
+      <h2 class="h3">Orders from this device</h2>
+      <div id="myOrders"></div>
+    </section>
+
+    <!-- STAFF -->
+    <section id="v-staff" class="view wrap sec">
+      <div class="sec-h"><h1 class="h2">Staff dashboard</h1><label class="inline">Date <input id="staffDate" type="date" class="input"></label></div>
+      <div class="chips" role="tablist"><button class="fchip on" data-act="tab" data-id="orders">Orders</button><button class="fchip" data-act="tab" data-id="menu">Menu and availability</button><button class="fchip" data-act="tab" data-id="settings">Slots and settings</button></div>
+      <div id="staffBody"></div>
+    </section>
+  </main>
+
+  <a id="cartBar" class="cartbar" href="#cart" hidden></a>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-main">
+
+    <div class="footer-brand">
+      <a href="#v-home" class="footer-logo">
+        <span class="footer-logo-icon">🍽</span>
+        Campus<span>Bite</span>
+      </a>
+      <p>
+        Your campus meals, made simpler.
+        Order ahead, skip the queue, and enjoy every break.
+      </p>
+      <span class="footer-tagline">MADE FOR CAMPUS LIFE 💙</span>
+    </div>
+
+    <div class="footer-links">
+      <h3>Explore</h3>
+      <a href="#v-home">Home</a>
+      <a href="#menu">Our Menu</a>
+      <a href="#track">Track Order</a>
+    </div>
+
+    <div class="footer-links">
+      <h3>How It Works</h3>
+      <a href="#v-home">Choose Your Food</a>
+      <a href="#v-home">Select Pickup Slot</a>
+      <a href="#v-home">Collect Your Token</a>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Quick Support</h3>
+      <p>Have a question about your order?</p>
+      <a href="#track" class="footer-support-btn">
+        Track Your Order <span>→</span>
+      </a>
+      <p class="footer-note">Fresh food. Less waiting. More time.</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© <span id="footerYear"></span> CampusBite. All rights reserved.</p>
+    <p>Designed for students, built for campus life.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("footerYear").textContent =
+    new Date().getFullYear();
+</script>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+ <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

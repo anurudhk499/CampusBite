@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Login | CampusBite</title>
+
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Inter", sans-serif;
+      background:
+        linear-gradient(
+          rgba(15, 39, 25, 0.48),
+          rgba(15, 39, 25, 0.68)
+        ),
+        url("{{ url_for('static', filename='campusbite-hero.png') }}")
+        center center / cover no-repeat fixed;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 410px;
+      margin: auto;
+      padding: 36px 32px;
+      color: #ffffff;
+      text-align: center;
+
+      background: rgba(20, 45, 29, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 24px;
+
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.25);
+    }
+
+    .login-logo {
+      display: block;
+      width: 72px;
+      height: 72px;
+      padding: 5px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      margin: 0 auto 16px;
+    }
+
+    .brand {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+      color: #ffffff !important;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      color: #e6c85c !important;
+    }
+
+    .subtitle {
+      margin: 9px 0 30px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0 0 24px;
+      color: #ffffff;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .field {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.22);
+      outline: none;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    input:focus {
+      border-color: #e6c85c;
+      box-shadow: 0 0 0 3px rgba(230, 200, 92, 0.15);
+    }
+
+    .login-button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      color: #203d2b;
+      background: #e6c85c;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .login-button:hover {
+      background: #f0d77b;
+      transform: translateY(-1px);
+    }
+
+    .error {
+      padding: 11px;
+      margin-bottom: 16px;
+      color: #ffffff;
+      font-size: 13px;
+      background: rgba(180, 30, 30, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: #ffffff;
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #e6c85c;
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 16px;
+      }
+
+      .login-card {
+        padding: 30px 22px;
+      }
+
+      .brand {
+        font-size: 32px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-card">
+
+    <img
+      class="login-logo"
+      src="{{ url_for('static', filename='logo.png') }}"
+      alt="Srinivas University logo"
+    >
+
+    <h1 class="brand">Campus<span>Bite</span></h1>
+    <p class="subtitle">Srinivas University</p>
+
+    <h2>Staff Login</h2>
+
+    {% with messages = get_flashed_messages(category_filter=['error']) %}
+      {% for message in messages %}
+        <div class="error" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('staff_login') }}">
+      <div class="field">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Enter your username"
+          autocomplete="username"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <button class="login-button" type="submit">
+        Sign In
+      </button>
+    </form>
+
+    <a class="back-link" href="{{ url_for('home') }}">
+      &larr; Back to CampusBite
+    </a>
+
+  </main>
+</body>
+</html>
